@@ -1,0 +1,62 @@
+https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/tree/feature/develop/1.2---CmakeList
+
+User (petrosolomchak):
+https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/tree/feature/develop/1.2---CmakeList потрібно добавити CMakeLists.txt.
+
+Copilot:
+Чекаю на вашу відповідь — підтвердження або відмову — щоб продовжити та додати CMakeLists.txt у вказану гілку.
+
+User:
+@Copilot Accepted Confirmation: Are you sure?
+
+Copilot:
+Я додав CMakeLists.txt у гілку feature/develop/1.2---CmakeList вашого репозиторія. Нижче — файл та короткі пояснення, як збирати та що можна змінити за потреби.
+
+name=CMakeLists.txt url=https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/blob/feature/develop/1.2---CmakeList/CMakeLists.txt
+cmake_minimum_required(VERSION 3.10)
+project(csad2526KI409SolomchakPetro19 VERSION 1.0 LANGUAGES C CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Collect source files from src/ and project root
+file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
+    src/*.cpp src/*.c src/*.cc src/*.cxx
+    *.cpp *.c *.cc *.cxx
+)
+
+if(NOT PROJECT_SOURCES)
+    message(WARNING "No source files found in src/ or project root. Add sources or update CMakeLists.txt")
+endif()
+
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+
+# Default build type
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
+option(BUILD_TESTING "Build tests" OFF)
+if(BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(test)
+endif()
+
+Copilot — пояснення:
+Що зроблено
+- Файл CMakeLists.txt створено і закомічено у гілку feature/develop/1.2---CmakeList (посилання на файл — у заголовку вище).
+
+Коротка інструкція зі збірки
+1. У корені проєкту запустіть:
+   - cmake -S . -B build
+   - cmake --build build
+2. Якщо потрібен інший тип збірки (Debug/Release): cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+
+Зауваження та можливі наступні кроки
+- Файл автоматично шукає джерела у src/ і в корені проєкту. Якщо ваші файли лежать в іншій папці — скажіть, і я підправлю шлях(и).
+- Якщо хочете додати підтримку бібліотек, тестів, або установки (install targets), я можу розширити CMakeLists.txt.
+- Якщо потрібно, можу відкрити PR з цими змінами або змінити формат/опції CMake під ваші вимоги.
+
+Бажаєте, щоб я додав підтримку unit-тестів, встановлення (install rules) або CI (GitHub Actions) для збірки?
