@@ -209,4 +209,5 @@ git commit -m "Add CI workflow for cross-platform build and tests (feature/devel
 git push --set-upstream origin feature/develop/1.4---ci-scripts
 Або через GitHub веб-інтерфейс: перейдіть у гілку feature/develop/1.4---ci-scripts → Add file → Create new file → вкажіть .github/workflows/ci.yml → вставте вміст → Commit directly to feature/develop/1.4---ci-scripts.
 
+
 Якщо хочете, я можу підправити YML (наприклад, додати кешування CMake, matrix з різними компіляторами або розширений deploy), або підготувати патч/zip для швидкого застосування — скажіть, що зручно.
