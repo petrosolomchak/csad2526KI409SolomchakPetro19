@@ -107,3 +107,106 @@ ctest --test-dir build --output-on-failure
 --- КІНЕЦЬ додавання щодо unit testing ---
 
 Are you sure?
+
+
+User (petrosolomchak):
+1. Створення структури Actions: У репозиторії створіть каталог
+.github/workflows/. У ньому створіть файл, наприклад, ci.yml.
+2. Використання Copilot для YML: У файлі ci.yml використовуйте Copilot для
+генерації робочого процесу (workflow) з наступними вимогами:
+○ Trigger: Запускати акцію при push або pull request у гілку, що містить в
+назві develop чи master .
+○ Job: Створити одну Job (наприклад, cross_build).
+○ Strategy: Використати матрицю (strategy: matrix) для запуску білду
+на трьох ОС:
+■ runs-on: ubuntu-latest (Linux)
+■ runs-on: windows-latest (Windows)
+■ runs-on: macos-latest (macOS)
+○ Steps: Кожен білд повинен включати кроки:
+■ Checkout коду (actions/checkout@v4).
+■ Встановлення CMake (якщо потрібно).
+■ Запуск команд конфігурації та білдування (запуск скрипту з Етапу
+3).
+■ Deploy.
+3. Закомітити зміни
+https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/tree/feature/develop/1.4---ci-scripts
+
+Copilot:
+Я підготував робочий процес CI і не можу напряму запушити його звідси — нижче файл .github/workflows/ci.yml і точні команди, щоб додати його у гілку feature/develop/1.4---ci-scripts локально або через веб.
+
+name=.github/workflows/ci.yml
+name: CI - Cross Platform Build
+
+on:
+  push:
+    branches:
+      - '*develop*'
+      - '*master*'
+  pull_request:
+    branches:
+      - '*develop*'
+      - '*master*'
+
+jobs:
+  cross_build:
+    name: Cross-platform build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup CMake (Linux/macOS)
+        if: matrix.os != 'windows-latest'
+        run: |
+          if [ "$(uname)" = "Darwin" ]; then
+            brew install cmake || true
+          else
+            sudo apt-get update
+            sudo apt-get install -y cmake
+          fi
+
+      - name: Setup CMake (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+
+      - name: Configure
+        run: cmake -S . -B build -DBUILD_TESTING=ON
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Run tests
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            ctest --test-dir build --output-on-failure --build-config Release
+          else
+            ctest --test-dir build --output-on-failure
+          fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{ matrix.os }}
+          path: build
+
+      - name: Deploy (placeholder)
+        run: echo "Deploy step — настроїти за потреби"
+Команди для додавання в гілку feature/develop/1.4---ci-scripts (локально)
+
+Оновіть та перейдіть у гілку:
+git fetch origin
+git checkout feature/develop/1.4---ci-scripts || git checkout -b feature/develop/1.4---ci-scripts origin/feature/develop/1.4---ci-scripts
+Створіть каталог і файл, додайте та закомітьте:
+mkdir -p .github/workflows
+(скопіюйте вміст блоку вище у файл .github/workflows/ci.yml)
+git add .github/workflows/ci.yml
+git commit -m "Add CI workflow for cross-platform build and tests (feature/develop/1.4---ci-scripts)"
+Запуште:
+git push --set-upstream origin feature/develop/1.4---ci-scripts
+Або через GitHub веб-інтерфейс: перейдіть у гілку feature/develop/1.4---ci-scripts → Add file → Create new file → вкажіть .github/workflows/ci.yml → вставте вміст → Commit directly to feature/develop/1.4---ci-scripts.
+
+Якщо хочете, я можу підправити YML (наприклад, додати кешування CMake, matrix з різними компіляторами або розширений deploy), або підготувати патч/zip для швидкого застосування — скажіть, що зручно.
