@@ -7,14 +7,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(MATH_SOURCES ${CMAKE_SOURCE_DIR}/math_operations.cpp)
 add_library(MathOperationsLib STATIC ${MATH_SOURCES})
 target_include_directories(MathOperationsLib PUBLIC ${CMAKE_SOURCE_DIR})
-
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
     src/*.cpp src/*.c src/*.cc src/*.cxx
     *.cpp *.c *.cc *.cxx
 )
-
 list(REMOVE_ITEM PROJECT_SOURCES ${CMAKE_SOURCE_DIR}/math_operations.cpp)
-
 if(PROJECT_SOURCES)
     add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
     target_link_libraries(${PROJECT_NAME} PRIVATE MathOperationsLib)
