@@ -1,0 +1,258 @@
+User (petrosolomchak):
+в гілку feature/develop/1.1---create-Hello-World створи main.cpp з мінімальною програмою "Hello World" і запуш туди
+
+The following references were attached as context:
+
+Included is some information about a GitHub repository and its language composition.
+repo: petrosolomchak/csad2526KI409SolomchakPetro19
+repo ID: 1099210060
+
+Copilot:
+Чекаю на ваше підтвердження діалогу, щоб продовжити і запушити main.cpp з програмою "Hello World" у гілку feature/develop/1.1---create-Hello-World.
+
+User (petrosolomchak):
+@Copilot Accepted Confirmation: Are you sure?
+
+Copilot:
+Готово — я створив і запушив файл main.cpp з мінімальною програмою "Hello World" у гілку feature/develop/1.1---create-Hello-World репозиторію petrosolomchak/csad2526KI409SolomchakPetro19. Коміт: Add main.cpp (Hello World) — https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/commit/d0597832d33142e9996a51a4a739d09154f25693 (sha d0597832d33142e9996a51a4a739d09154f25693). Файл доступний за посиланням: https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/blob/feature/develop/1.1---create-Hello-World/main.cpp
+
+```cpp
+#include <iostream>
+
+int main() {
+    std::cout << "Hello World\n";
+    return 0;
+}
+
+https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/tree/feature/develop/1.2---CmakeList
+
+User (petrosolomchak):
+https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/tree/feature/develop/1.2---CmakeList потрібно добавити CMakeLists.txt.
+
+Copilot:
+Чекаю на вашу відповідь — підтвердження або відмову — щоб продовжити та додати CMakeLists.txt у вказану гілку.
+
+User:
+@Copilot Accepted Confirmation: Are you sure?
+
+Copilot:
+Я додав CMakeLists.txt у гілку feature/develop/1.2---CmakeList вашого репозиторія. Нижче — файл та короткі пояснення, як збирати та що можна змінити за потреби.
+
+name=CMakeLists.txt url=https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/blob/feature/develop/1.2---CmakeList/CMakeLists.txt
+cmake_minimum_required(VERSION 3.10)
+project(csad2526KI409SolomchakPetro19 VERSION 1.0 LANGUAGES C CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Collect source files from src/ and project root
+file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
+    src/*.cpp src/*.c src/*.cc src/*.cxx
+    *.cpp *.c *.cc *.cxx
+)
+
+if(NOT PROJECT_SOURCES)
+    message(WARNING "No source files found in src/ or project root. Add sources or update CMakeLists.txt")
+endif()
+
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+
+# Default build type
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+endif()
+
+option(BUILD_TESTING "Build tests" OFF)
+if(BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(test)
+endif()
+
+Copilot — пояснення:
+Що зроблено
+- Файл CMakeLists.txt створено і закомічено у гілку feature/develop/1.2---CmakeList (посилання на файл — у заголовку вище).
+
+Коротка інструкція зі збірки
+1. У корені проєкту запустіть:
+   - cmake -S . -B build
+   - cmake --build build
+2. Якщо потрібен інший тип збірки (Debug/Release): cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+
+Зауваження та можливі наступні кроки
+- Файл автоматично шукає джерела у src/ і в корені проєкту. Якщо ваші файли лежать в іншій папці — скажіть, і я підправлю шлях(и).
+- Якщо хочете додати підтримку бібліотек, тестів, або установки (install targets), я можу розширити CMakeLists.txt.
+- Якщо потрібно, можу відкрити PR з цими змінами або змінити формат/опції CMake під ваші вимоги.
+
+Бажаєте, щоб я додав підтримку unit-тестів, встановлення (install rules) або CI (GitHub Actions) для збірки?
+
+ser (petrosolomchak): Потрібно: Для цієї роботи будемо тестувати просту функцію, використаємо Google Test. Завдання:
+
+Створіть файли math_operations.h та math_operations.cpp у корені проекту. У math_operations.h створіть функцію int add(int a, int b);
+Створіть каталог tests і файл tests/unit_tests.cpp з юніт-тестами для функції add за допомогою Google Test.
+Оновіть CMakeLists.txt щоб підключити Google Test, створити тестовий виконуваний файл і додати add_test для запуску тестів.
+Закомітити зміни у гілці feature/develop/1.3---unit-testing та запушити.
+Copilot: Я підготував усі потрібні файли (math_operations.h, math_operations.cpp, tests/unit_tests.cpp) та оновлений CMakeLists.txt для підтримки Google Test. Нижче — вміст файлів і інструкції. Підтвердіть, будь ласка, чи я можу закомітити і запушити ці зміни у гілку feature/develop/1.3---unit-testing.
+
+... (вміст підготовлених файлів math_operations.h, math_operations.cpp, tests/unit_tests.cpp та оновленого CMakeLists.txt наведено у файлі)
+
+Copilot: Після вашого підтвердження я спробував створити гілку feature/develop/1.3---unit-testing і запушити файли. Перша спроба створення гілки повернула помилку (гілка вже існувала), після чого я закомічив і додав файли безпосередньо у гілку feature/develop/1.3---unit-testing.
+
+Copilot: Готово — я додав файли math_operations.h, math_operations.cpp, tests/unit_tests.cpp та оновлений CMakeLists.txt у гілку feature/develop/1.3---unit-testing. Нижче — коротка інструкція для збірки і запуску тестів:
+
+cmake -S . -B build -DBUILD_TESTING=ON
+cmake --build build --config Release
+ctest --test-dir build --output-on-failure
+--- КІНЕЦЬ додавання щодо unit testing ---
+
+Are you sure?
+User (petrosolomchak):
+Етап 4. Генерація CI-скрипту для локального білдування
+1. Створіть скрипт: Створіть файл ci.sh (для Linux/macOS) або ci.bat/ci.cmd
+(для Windows). Використовуйте Copilot для генерації команд, які виконують
+наступні кроки:
+○ Створення каталогу білдування (mkdir build).
+○ Перехід у каталог (cd build).
+○ Конфігурування проекту за допомогою CMake (cmake ..).
+○ Білдування проєкту (cmake --build .).
+○ Забезпечте права на виконання (chmod +x build.sh) та зафіксуйте
+зміни.
+○ Створіть крок, який запускає тести за допомогою CTest (частина CMake),
+і переконайтеся, що він виконується на всіх трьох ОС:
+
+
+Copilot:
+Звісно! Я створю два окремі файли:
+
+ci.sh: Скрипт для Linux та macOS (Bash).
+
+ci.cmd: Скрипт для Windows (використовує командний рядок CMD).
+
+Обидва скрипти виконують усі необхідні кроки для конфігурації, збірки та запуску тестів.
+
+Ось файли:
+
+1. Скрипт для Linux/macOS (ci.sh)
+CI Build and Test Script
+28 лист., 00:06
+
+Відкрити
+
+eof
+
+2. Скрипт для Windows (ci.cmd)
+CI Build and Test Script
+28 лист., 00:11
+
+Відкрити
+
+3. Зафіксуйте зміни (включно з правами виконання для ci.sh).
+
+Тепер ви можете запускати збірку та тести локально, використовуючи:
+
+./ci.sh (на Linux/macOS)
+
+ci.cmd (на Windows)
+User (petrosolomchak):
+1. Створення структури Actions: У репозиторії створіть каталог
+.github/workflows/. У ньому створіть файл, наприклад, ci.yml.
+2. Використання Copilot для YML: У файлі ci.yml використовуйте Copilot для
+генерації робочого процесу (workflow) з наступними вимогами:
+○ Trigger: Запускати акцію при push або pull request у гілку, що містить в
+назві develop чи master .
+○ Job: Створити одну Job (наприклад, cross_build).
+○ Strategy: Використати матрицю (strategy: matrix) для запуску білду
+на трьох ОС:
+■ runs-on: ubuntu-latest (Linux)
+■ runs-on: windows-latest (Windows)
+■ runs-on: macos-latest (macOS)
+○ Steps: Кожен білд повинен включати кроки:
+■ Checkout коду (actions/checkout@v4).
+■ Встановлення CMake (якщо потрібно).
+■ Запуск команд конфігурації та білдування (запуск скрипту з Етапу
+3).
+■ Deploy.
+3. Закомітити зміни
+https://github.com/petrosolomchak/csad2526KI409SolomchakPetro19/tree/feature/develop/1.4---ci-scripts
+
+Copilot:
+Я підготував робочий процес CI і не можу напряму запушити його звідси — нижче файл .github/workflows/ci.yml і точні команди, щоб додати його у гілку feature/develop/1.4---ci-scripts локально або через веб.
+
+name=.github/workflows/ci.yml
+name: CI - Cross Platform Build
+
+on:
+  push:
+    branches:
+      - '*develop*'
+      - '*master*'
+  pull_request:
+    branches:
+      - '*develop*'
+      - '*master*'
+
+jobs:
+  cross_build:
+    name: Cross-platform build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup CMake (Linux/macOS)
+        if: matrix.os != 'windows-latest'
+        run: |
+          if [ "$(uname)" = "Darwin" ]; then
+            brew install cmake || true
+          else
+            sudo apt-get update
+            sudo apt-get install -y cmake
+          fi
+
+      - name: Setup CMake (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+
+      - name: Configure
+        run: cmake -S . -B build -DBUILD_TESTING=ON
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Run tests
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            ctest --test-dir build --output-on-failure --build-config Release
+          else
+            ctest --test-dir build --output-on-failure
+          fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{ matrix.os }}
+          path: build
+
+      - name: Deploy (placeholder)
+        run: echo "Deploy step — настроїти за потреби"
+Команди для додавання в гілку feature/develop/1.4---ci-scripts (локально)
+
+Оновіть та перейдіть у гілку:
+git fetch origin
+git checkout feature/develop/1.4---ci-scripts || git checkout -b feature/develop/1.4---ci-scripts origin/feature/develop/1.4---ci-scripts
+Створіть каталог і файл, додайте та закомітьте:
+mkdir -p .github/workflows
+(скопіюйте вміст блоку вище у файл .github/workflows/ci.yml)
+git add .github/workflows/ci.yml
+git commit -m "Add CI workflow for cross-platform build and tests (feature/develop/1.4---ci-scripts)"
+Запуште:
+git push --set-upstream origin feature/develop/1.4---ci-scripts
+Або через GitHub веб-інтерфейс: перейдіть у гілку feature/develop/1.4---ci-scripts → Add file → Create new file → вкажіть .github/workflows/ci.yml → вставте вміст → Commit directly to feature/develop/1.4---ci-scripts.
+
+
+Якщо хочете, я можу підправити YML (наприклад, додати кешування CMake, matrix з різними компіляторами або розширений deploy), або підготувати патч/zip для швидкого застосування — скажіть, що зручно.

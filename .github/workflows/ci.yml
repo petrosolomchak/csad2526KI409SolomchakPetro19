@@ -1,0 +1,60 @@
+name: CI - Cross Platform Build
+
+on:
+  push:
+    branches:
+      - '*develop*'
+      - '*master*'
+  pull_request:
+    branches:
+      - '*develop*'
+      - '*master*'
+
+jobs:
+  cross_build:
+    name: Cross-platform build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup CMake (Linux/macOS)
+        if: matrix.os != 'windows-latest'
+        run: |
+          if [ "$(uname)" = "Darwin" ]; then
+            brew install cmake || true
+          else
+            sudo apt-get update
+            sudo apt-get install -y cmake
+          fi
+
+      - name: Setup CMake (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+
+      - name: Configure
+        run: cmake -S . -B build -DBUILD_TESTING=ON
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Run tests (Linux/macOS)
+        if: matrix.os != 'windows-latest'
+        run: ctest --test-dir build --output-on-failure
+        
+      - name: Run tests (Windows)
+        if: matrix.os == 'windows-latest'
+        run: ctest --test-dir build --output-on-failure --build-config Release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.os }}
+          path: build
+
+      - name: Deploy (placeholder)
+        run: echo "Deploy step — настроїти за потреби"
